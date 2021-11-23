@@ -1,15 +1,9 @@
 
 import React, { useState } from 'react';
-import { View, StyleSheet, ScrollView } from 'react-native';
-import Button from './components/shared/button';
-import Heading from './components/shared/heading';
-import Input from './components/shared/input';
-import TabBar from './components/tabBar';
-import ToDoList from './components/toDo/index';
+import { View, StyleSheet, Image, Text } from 'react-native';
 import { ToDoTypes } from './types/enums';
 import { ToDo } from './types/Todo';
 
-let toDoIndex = 0
 
 interface State {
   inputValue: string;
@@ -19,62 +13,40 @@ interface State {
 
 const App = () => {
 
-  const [state, setState] = useState<State>({
-    inputValue: '',
-    todos: [],
-    type: ToDoTypes.All
+  const [state, setState] = useState({
+    darkTheme: false
   })
 
-  const handleInput = (value: string) => {
-    setState({ ...state, inputValue: value })
-  }
 
-  const deleteToDo = (index: number) => { 
-    let { todos } = state
-
-    todos = todos.filter((item) => item.toDoIndex !== index)
-
-    setState({ ...state, todos })
-  }
-
-  const setType = (type: ToDoTypes) => {
-    setState({ ...state, type: type })
-  }
-
-  const toggleComplete = (index: number) => {
-    let { todos } = state
-
-    todos[index].complete = !todos[index].complete
-
-    setState({ ...state, todos })
-
-  }
-
-  const submitToDo = () => {
-    if (!state.inputValue) {
-      return
-    }
-    const toDo = {
-      title: state.inputValue,
-      toDoIndex: toDoIndex,
-      complete: false
-    }
-    toDoIndex++
-    const todos = [...state.todos, toDo]
-    setState({ ...state, todos, inputValue: '' })
+  const handleClick = () => {
+    setState({ ...state, darkTheme: !state.darkTheme })
   }
 
 
   return (
     <View style={styles.container}>
-      <ScrollView style={styles.content}
-        keyboardShouldPersistTaps="always">
-        <Heading />
-        <Input inputValue={state.inputValue} inputChange={handleInput} />
-        <ToDoList type={state.type} todos={state.todos} deleteToDo={deleteToDo} toggleComplete={toggleComplete} />
-        <Button submitToDo={submitToDo} />
-      </ScrollView>
-      <TabBar setType={setType} type={state.type} />
+      <View style={styles.content}>
+        <View style={styles.cardImageContainer}>
+          <Image style={styles.cardImage} source={require("./assets/images/user.png")} />
+        </View>
+        <View>
+          <Text style={styles.cardTitle}>
+            John Dou
+          </Text>
+        </View>
+        <View>
+          <Text style={styles.cardDescription}>
+            React Native Developer
+          </Text>
+        </View>
+        <View>
+          <Text style={styles.cardText}>
+            John is a really great JavaScript developer. He
+            loves using JS to build React Native applications
+            for iOS and Android.
+          </Text>
+        </View>
+      </View>
     </View>
   );
 };
@@ -82,12 +54,58 @@ const App = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    justifyContent: "center",
+    alignItems: "center"
   },
   content: {
-    flex: 1,
-    paddingTop: 60,
+    height: 400,
+    width: 300,
+    backgroundColor: "dodgerblue",
+    borderRadius: 10,
+    borderWidth: 3,
+    alignItems: "center",
   },
+  cardImageContainer: {
+    marginTop: 20,
+    backgroundColor: "white",
+    width: 100,
+    height: 100,
+    borderRadius: 60,
+    borderWidth: 2,
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  cardImage: {
+    width: 50,
+    height: 50
+  },
+
+  cardTitle: {
+    marginTop: 12,
+    color: "rgb(255, 255, 255)",
+    fontWeight: "bold",
+    textShadowColor: 'black',
+    textShadowOffset: { width: -2, height: -2 },
+    textShadowRadius: 4
+  },
+  cardDescription: {
+    borderColor: 'black',
+    borderBottomWidth: 2,
+    marginTop: 30,
+    fontWeight: "bold"
+  },
+  cardText: {
+    textAlign: "center",
+    marginTop: 10,
+    marginRight: 40,
+    marginLeft: 40,
+    marginBottom: 10,
+    fontStyle: 'italic',
+    // textDecorationLine: 'underline',
+    // textDecorationColor: "rgb(255, 255, 255)",
+    // textDecorationStyle: 'double',
+  }
+
 });
 
 export default App;
