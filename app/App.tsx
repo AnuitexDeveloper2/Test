@@ -1,21 +1,19 @@
 
-import React, { useState } from 'react';
-import { View, StyleSheet } from 'react-native';
-import RNAnimation from './animation';
-import RNAnimationParallel from './animationParallel';
-import RNAnimationSequence from './animationSequence';
-import RNAnimationSpinner from './animationSpinner';
-import RNAnimationStagger from './animationStagger';
+import React from 'react';
+import { View } from 'react-native';
+import { createStore } from "redux";
+import { Provider } from "react-redux";
+import rootReducer from './redux/reducers';
+import Books from './components/books';
 
+const store = createStore(rootReducer)
 
 const App = () => {
 
   return (
-    // <RNAnimation />
-    // <RNAnimationSpinner />
-    // <RNAnimationParallel /> 
-    // <RNAnimationSequence />
-    <RNAnimationStagger />
+    <Provider store={store}>
+      <Books/>
+    </Provider>
   )
 }
 
