@@ -5,8 +5,9 @@ import { createStore } from "redux";
 import { Provider } from "react-redux";
 import rootReducer from './redux/reducers';
 import Books from './components/books';
+import { configureStore } from './redux/store';
 
-const store = createStore(rootReducer)
+const store = configureStore()
 
 const App = () => {
 
